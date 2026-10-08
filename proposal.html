@@ -1,0 +1,147 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow"><title>Technical proposal | CCRH website prototype</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52'%3E%3Ccircle cx='26' cy='26' r='25' fill='%2329136c'/%3E%3C/svg%3E">
+<style>
+body { margin: 0; font-family: "Noto Sans", system-ui, Arial, sans-serif; line-height: 1.6; color: #14141f; background: #fff; }
+.banner { background: #fff6d6; color: #4d3b00; font-size: 14px; padding: 8px 16px; text-align: center; }
+header { background: #29136c; color: #fff; padding: 28px 16px; }
+header .in, main { max-width: 960px; margin: 0 auto; }
+header h1 { margin: 0 0 6px; font-size: 28px; }
+header p { margin: 0; opacity: .9; }
+main { padding: 24px 16px 48px; }
+h2 { color: #29136c; margin-top: 32px; font-size: 22px; }
+table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 15px; }
+th, td { border: 1px solid #d0cde0; padding: 8px 10px; text-align: left; vertical-align: top; }
+th { background: #29136c; color: #fff; }
+tr:nth-child(even) td { background: #f6f4fb; }
+a { color: #4729a3; font-weight: 600; }
+.cta { display: inline-block; background: #29136c; color: #fff; padding: 10px 18px; border-radius: 4px; text-decoration: none; margin: 8px 8px 0 0; }
+.cta.light { background: #fff; color: #29136c; }
+@media (max-width: 640px) { table { font-size: 13px; } }
+</style></head><body>
+<div class="banner">Prepared by MOJUD for the CCRH website tender (2026_CCRH_925435_1). This is not an official CCRH page.</div>
+<header><div class="in">
+<h1>Technical proposal: new CCRH website</h1>
+<p>Redesign, re-development, migration, certification, hosting and 5-year maintenance of ccrhindia.ayush.gov.in</p>
+<a class="cta light" href="./">Open the working prototype</a> <a class="cta light" href="proposal.pdf">Download as PDF</a>
+</div></header>
+<main>
+<h2 id="p-overview">1. Overview</h2>
+<p>We will rebuild ccrhindia.ayush.gov.in as a bilingual (English and Hindi) website on an open-source CMS, compliant with GIGW 3.0, DBIM and WCAG 2.1 AA. The site goes live within 20 weeks of the work order with CERT-In Safe-to-Host and STQC Certified Quality Website (CQW) certificates, and we then host and run it on a MeitY-empanelled cloud in India for 5 years.</p>
+<p><strong>Working prototype of the new website:</strong> <a href="https://vedanshugoyal.github.io/ccrh-prototype/">https://vedanshugoyal.github.io/ccrh-prototype/</a> (28 pages in English and Hindi, built with CCRH's own public content).</p>
+<ul>
+<li>A new DBIM-based design with navigation built around visitors; every key service within 3 clicks.</li>
+<li>All existing content, documents, media and data migrated without loss; every old link keeps working.</li>
+<li>WCAG 2.1 AA, CERT-In Safe-to-Host and STQC CQW cleared before launch.</li>
+<li>Hosting on a MeitY-empanelled cloud in India at 99.9% uptime; no data stored or routed abroad.</li>
+<li>5 years of operation: content updates, annual CERT-In audit, STQC renewal, EV SSL, patching and backups.</li>
+<li>100% ownership of source code, database and documentation transferred to CCRH.</li>
+</ul>
+
+<h2 id="p-assessment">2. What we found on the current website</h2>
+<p>We studied the public pages of ccrhindia.ayush.gov.in on 8 October 2026 (181 menu pages in both languages; no logins, no scans).</p>
+<table><thead><tr><th>Area</th><th>Finding</th><th>What the new website does</th></tr></thead><tbody>
+<tr><td>Platform</td><td>Drupal 10, whose security support ends on 9 December 2026</td><td>Moves to a supported Drupal version, with database-level migration</td></tr>
+<tr><td>Speed</td><td>Pages take about 6.7 seconds to build; the home page is about 9.4 MB</td><td>Home page about 140 KB in the prototype; optimised images; caching</td></tr>
+<tr><td>Hindi and English</td><td>Two separate page trees; menus differ (94 vs 87 links); 169 documents in one language only</td><td>One item holds both languages; the language switch keeps you on the same page</td></tr>
+<tr><td>Accessibility</td><td>Same title on all 181 pages; no high-contrast option; scrolling text cannot be paused; missing alt text</td><td>Unique titles; contrast and text-size options; pausable ticker; alt text required</td></tr>
+<tr><td>Security</td><td>Plain HTTP not redirected to HTTPS; no Content-Security-Policy; server versions disclosed</td><td>HTTPS only, security headers, WAF, hardened servers</td></tr>
+<tr><td>Data sovereignty</td><td>Google Maps embedded on about 34 pages</td><td>No third-party calls; India-hosted maps</td></tr>
+<tr><td>Documents</td><td>424+ PDFs, most without file size; some over 100 MB</td><td>Type and size on every download; large files flagged and compressed</td></tr>
+</tbody></table>
+
+<h2 id="p-approach">3. Approach and technology</h2>
+<table><thead><tr><th>Layer</th><th>Choice</th></tr></thead><tbody>
+<tr><td>CMS</td><td>Drupal (open source), the same CMS as today, upgraded through supported versions at our cost</td></tr>
+<tr><td>Servers</td><td>Web server and database server as specified in §4.3 (4 vCPU, 32 GB RAM, 300 GB SSD each), Linux with enterprise support</td></tr>
+<tr><td>Network</td><td>Two-tier: only the web server is public (ports 80/443 behind the WAF); the database has no public route</td></tr>
+<tr><td>Security</td><td>Web Application Firewall with rate limiting and virtual patching, no CAPTCHAs; admin access only from whitelisted IPs</td></tr>
+<tr><td>Data in India</td><td>Hosting, backups, logs and firewall all in Indian regions of a MeitY-empanelled cloud; logs kept 180 days (CERT-In directions)</td></tr>
+<tr><td>Ownership</td><td>Code in a repository owned by CCRH; infrastructure scripted so it can be rebuilt and handed over</td></tr>
+</tbody></table>
+
+<h2 id="p-ia">4. New website structure</h2>
+<p>Eight sections replace ten, each built around one group of visitors:</p>
+<table><thead><tr><th>Section</th><th>Main pages</th></tr></thead><tbody>
+<tr><td>About CCRH</td><td>The Council, objectives, governance, citizen charter, annual reports</td></tr>
+<tr><td>Research</td><td>8 research areas, public health programmes, Extra Mural Research, collaborations</td></tr>
+<tr><td>Our Network</td><td>Centre finder for all 33 institutes and units with address and phone, by state and type</td></tr>
+<tr><td>Publications</td><td>Standard Treatment Guidelines, IJRH, annual reports, newsletter, books, IEC material</td></tr>
+<tr><td>Opportunities</td><td>Vacancies, results, recruitment rules, scholarships</td></tr>
+<tr><td>Tenders</td><td>Open, recently closed and archived tenders, with corrigenda under each tender</td></tr>
+<tr><td>Media</td><td>News and updates, photo and video galleries</td></tr>
+<tr><td>Help and Contact</td><td>Contact details, RTI, grievances (CPGRAMS), FAQ, feedback</td></tr>
+</tbody></table>
+
+<h2 id="p-migration">5. Data migration</h2>
+<ol>
+<li>Take a database and file export of the current site (week 1) and list every page, file and URL.</li>
+<li>Pair every English page with its Hindi page; flag documents that exist in one language only.</li>
+<li>Agree a mapping of old content to new content types with CCRH (week 3).</li>
+<li>Run two trial migrations on staging (weeks 13–14) with a reconciliation report: item counts, file checksums, links, translations.</li>
+<li>Final migration at go-live after a 48-hour content freeze; every old URL redirects to its new page.</li>
+<li>Keep the old site read-only for 30 days as a fallback.</li>
+</ol>
+
+<h2 id="p-cert">6. Certification plan</h2>
+<table><thead><tr><th>Certificate</th><th>Issued by</th><th>When</th></tr></thead><tbody>
+<tr><td>WCAG 2.1 AA (internal check)</td><td>Our testing on every build</td><td>Weeks 7–14</td></tr>
+<tr><td>CERT-In Safe-to-Host</td><td>CERT-In empanelled auditor (booked in week 8)</td><td>Certificate by week 18; renewed every year</td></tr>
+<tr><td>STQC Certified Quality Website</td><td>STQC Directorate, MeitY (applied in week 14)</td><td>Certificate by week 18; renewed in year 3</td></tr>
+</tbody></table>
+<p>Production servers are built early (weeks 11–12, at our cost, as allowed by Corrigendum 1), so the audits test the environment that actually goes live.</p>
+
+<h2 id="p-timeline">7. Timeline (20 weeks)</h2>
+<table><thead><tr><th>Phase</th><th>Weeks</th><th>Deliverables</th><th>CCRH sign-off</th></tr></thead><tbody>
+<tr><td>1. Discovery</td><td>1–3</td><td>Requirements, current-site assessment, information architecture, project plan, migration strategy</td><td>Project plan</td></tr>
+<tr><td>2. Design</td><td>4–6</td><td>Wireframes, 3 DBIM design concepts, interactive prototype</td><td>M1: final design</td></tr>
+<tr><td>3. Build</td><td>7–12</td><td>Website, CMS, responsive layouts, GIGW and DBIM compliance; production servers built</td><td>Demo every 2 weeks</td></tr>
+<tr><td>4. Test</td><td>13–14</td><td>Two trial migrations; functional, accessibility, performance and browser testing</td><td>M2: staging ready</td></tr>
+<tr><td>5. Certify</td><td>15–18</td><td>CERT-In audit and fixes; STQC testing; both certificates</td><td>M3: certificates</td></tr>
+<tr><td>6. Harden</td><td>19</td><td>WAF rules, EV SSL, network rules, control panel, backup restore test</td><td>M4: production ready</td></tr>
+<tr><td>7. Launch</td><td>20</td><td>Final migration, UAT, go-live, credentials, first backup, training</td><td>M5: go-live; 5-year AMC starts</td></tr>
+</tbody></table>
+
+<h2 id="p-ops">8. Operations and support for 5 years</h2>
+<ul>
+<li><strong>Response:</strong> within 30–60 minutes in working hours and 2–4 hours otherwise (Corrigendum 1). No onsite staff needed.</li>
+<li><strong>Content updates:</strong> published within 1 working day; urgent notices within 2 hours.</li>
+<li><strong>Security:</strong> Drupal security patches within 48 hours (24 hours if critical); monthly OS patching; incidents reported to CERT-In within 6 hours.</li>
+<li><strong>Uptime:</strong> 99.9% per year, checked every minute from India; monthly uptime report with each quarterly invoice.</li>
+<li><strong>Backups:</strong> daily, kept in a second Indian region; full encrypted backup delivered to CCRH every quarter and at each year-end, restore-tested.</li>
+<li><strong>Credentials:</strong> full set handed to CCRH at go-live; any change shared within 24 hours.</li>
+<li><strong>Yearly:</strong> CERT-In audit, EV SSL renewal, performance review; STQC renewal in year 3.</li>
+<li><strong>Training:</strong> CMS training for CCRH staff at go-live and yearly, with user manual and SOPs.</li>
+<li><strong>Exit:</strong> complete handover of code, data, credentials and documentation, with knowledge transfer, before any final payment.</li>
+</ul>
+
+<h2 id="p-confirm">9. Points we will confirm with CCRH at kick-off</h2>
+<ul>
+<li>Access to a database and file export of the current website.</li>
+<li>Who provides Hindi translations of new content.</li>
+<li>Whether institute and unit staff will edit their own pages.</li>
+<li>Whether the website should open in Hindi or English by default.</li>
+<li>Which officer will act as Web Information Manager.</li>
+</ul>
+
+<h2>Team</h2>
+
+
+<p>Two Computer Science graduates of IIT Jodhpur (B.Tech, 2019–2023) with over 6 years of combined private-sector experience (3+ years each) building and running websites and large software systems.</p>
+<p><strong>Vedanshu Goyal</strong>, Proprietor and Project Lead (hosting, performance, security)</p>
+<ul>
+<li>B.Tech, Computer Science and Engineering, IIT Jodhpur. ICPC World Finalist 2023, an international programming contest.</li>
+<li>Software Engineer, Qi-CAP, Bangalore (Aug 2023 – Jun 2026), a stock-market trading technology company.
+  <ul><li>Built software that handles about 10 lakh stock-market updates every second.</li>
+  <li>Made the company's trading systems more than 70% faster, and kept them steady at the busiest times of the day.</li>
+  <li>Worked on storing and retrieving large amounts of data quickly and safely, which is also what keeps a busy website fast and available.</li></ul></li>
+<li>Software Development Engineer, Live Your Best Life (lybl.com) (Jan – Jul 2023): built the online booking system and a community forum for the LYBL website.</li>
+</ul>
+<p><strong>Sarthak Kumar Singh</strong>, Web Development Lead</p>
+<ul>
+<li>B.Tech, Computer Science and Engineering, IIT Jodhpur.</li>
+<li>Full Stack Engineer, Regie.ai (Apr 2026 – Jun 2026). Earlier SDE I and SDE II at ConveGenius.ai (May 2023 – Mar 2026), promoted within 2 years.</li>
+<li>Built and ran web systems used by over 10 crore people, available 99.9% of the time and handling about 5,000 requests every second.</li>
+</ul>
+<p style="margin-top:32px;font-size:14px;color:#4b4f5c">MOJUD &nbsp;|&nbsp; 397, Green Park Colony, Bistan Road, Khargone, Madhya Pradesh 451001 &nbsp;|&nbsp; +91-9425326724 &nbsp;|&nbsp; vedanshu.iitj@gmail.com</p>
+</main></body></html>
